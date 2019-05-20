@@ -4,6 +4,7 @@ import TextInput from "../../components/TextInput";
 import Button from "../../components/Button";
 
 import socketIOClient from "socket.io-client";
+import axios from "axios";
 
 export default class TaskPage extends Component {
   state = {
@@ -31,6 +32,10 @@ export default class TaskPage extends Component {
   toggleTask() {
     const { task } = this.state;
     task.start = !task.start;
+
+    if (task.start)
+      axios.patch("http://localhost:3000/workshop/1/detail/resetStatus");
+
     this.setState({ task });
   }
 
