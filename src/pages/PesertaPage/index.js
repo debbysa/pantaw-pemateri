@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
+import styled from "styled-components";
 
 export default class PesertaPage extends Component {
   state = {
@@ -23,12 +24,21 @@ export default class PesertaPage extends Component {
     return (
       <div>
         {this.state.detailWorkshop.map(item => (
-          <div>
+          <Container>
             <p>{item.id_peserta}</p>
             <p>{item.status.status}</p>
-          </div>
+          </Container>
         ))}
       </div>
     );
   }
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  flex-direction: row;
+  border: 0.5em solid #ffbb73;
+  /* align-content: stretch; */
+`;
