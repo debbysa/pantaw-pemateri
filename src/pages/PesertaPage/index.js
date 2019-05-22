@@ -25,7 +25,7 @@ export default class PesertaPage extends Component {
       <div>
         {this.state.detailWorkshop.map(item => (
           <Container>
-            <p>{item.id_peserta}</p>
+            <p>{item.peserta.nama}</p>
             <p>{item.status.status}</p>
           </Container>
         ))}
