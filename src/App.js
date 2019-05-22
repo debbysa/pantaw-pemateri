@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Navigation from "./components/Navigation";
 import WorkshopInfo from "./components/WorkshopInfo";
@@ -30,9 +30,12 @@ class App extends Component {
         <Navigation />
         <WorkshopInfo workshop={this.state.workshop} />
 
-        <Route path="/" exact component={TaskPage} />
-        <Route path="/peserta" component={PesertaPage} />
-        <Route path="/percakapan" component={PercakapanPage} />
+        <Route path="/" exact children={props => <TaskPage {...props} />} />
+
+        <Switch>
+          <Route path="/peserta" component={PesertaPage} />
+          <Route path="/percakapan" component={PercakapanPage} />
+        </Switch>
       </BrowserRouter>
     );
   }
