@@ -33,15 +33,18 @@ export default class TaskPage extends Component {
     const { task } = this.state;
     task.start = !task.start;
 
-    if (task.start)
+    if (task.start) {
       axios.patch("http://localhost:3000/workshop/1/detail/resetStatus");
+      this.socket.emit("resetStatus");
+    }
 
+    this.socket.emit("task", task);
     this.setState({ task });
   }
 
   render() {
     return (
-      <div>
+      <div style={{ display: this.props.match ? "block" : "none" }}>
         {this.state.task.start ? (
           <Task
             task={this.state.task}
