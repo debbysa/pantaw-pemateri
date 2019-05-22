@@ -5,7 +5,8 @@ import styled from "styled-components";
 
 export default class PercakapanPage extends Component {
   state = {
-    percakapan: []
+    percakapan: [],
+    message: ""
   };
 
   socket = socketIOClient("http://localhost:3000");
@@ -15,20 +16,42 @@ export default class PercakapanPage extends Component {
       .get("http://localhost:3000/workshop/1/percakapan")
       .then(response => this.setState({ percakapan: response.data }));
 
-    this.socket.on("percakapan", percakapanItem => {
-      const { percakapan } = this.state;
-      percakapan.push(percakapanItem);
+    this.socket.on("percakapan", percakapan => {
       this.setState({ percakapan });
     });
+  }
+
+  changeMessage(value) {
+    this.setState({ message: value });
+  }
+
+  sendMessage() {
+    axios
+      .post("http://localhost:3000/workshop/1/percakapan", {
+        id_pengirim: 1,
+        pesan: this.state.message
+      })
+      .then(response => {
+        this.socket.emit("percakapan", 1);
+        this.setState({ message: "" });
+      });
   }
 
   render() {
     return (
       <Body>
+        <input
+          type="text"
+          value={this.state.message}
+          onChange={event => this.changeMessage(event.target.value)}
+        />
+        <button onClick={() => this.sendMessage()}>Kirim</button>
         {this.state.percakapan.map(item => (
           <Item>
             <li>
-              {item.id_pengirim}
+              {item.peserta
+                ? item.peserta.nama
+                : item.pemateri.nama + " (pemateri) "}
               <p>{item.pesan}</p>
             </li>
           </Item>
