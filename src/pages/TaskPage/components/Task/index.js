@@ -7,6 +7,7 @@ export default class Task extends Component {
   };
 
   componentDidMount() {
+    this.props.onTick(this.state.timer);
     this.startTimer();
   }
 
@@ -18,10 +19,14 @@ export default class Task extends Component {
         this.props.onTick(timer);
         this.setState({ timer });
       } else {
-        clearInterval(this.timer);
-        this.props.onStop();
+        this.stopTimer();
       }
     }, 1000);
+  }
+
+  stopTimer() {
+    clearInterval(this.timer);
+    this.props.onStop();
   }
 
   render() {
@@ -29,7 +34,7 @@ export default class Task extends Component {
       <div align="center">
         <p align="center">{this.props.task.judul}</p>
         <p align="center">{this.state.timer}</p>
-        <Button onClick={() => this.props.onStop()} text="Berhenti" />
+        <Button onClick={() => this.stopTimer()} text="Berhenti" />
       </div>
     );
   }
