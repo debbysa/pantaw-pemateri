@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import axios from "axios";
 import styled from "styled-components";
+import Button from "../../components/Button";
+import TextInput from "../../components/TextInput";
 
 export default class PercakapanPage extends Component {
   state = {
@@ -40,22 +42,30 @@ export default class PercakapanPage extends Component {
   render() {
     return (
       <Body>
-        <input
-          type="text"
-          value={this.state.message}
-          onChange={event => this.changeMessage(event.target.value)}
-        />
-        <button onClick={() => this.sendMessage()}>Kirim</button>
-        {this.state.percakapan.map(item => (
-          <Item>
-            <li>
+        <InputContainer>
+          <TextInput
+            label="Pesan"
+            value={this.state.message}
+            onChange={value => this.changeMessage(value)}
+          />
+          <Button onClick={() => this.sendMessage()} text="Kirim" />
+        </InputContainer>
+
+        <MessageContainer>
+          {this.state.percakapan.map(item => (
+            <Item
+              style={{
+                alignSelf: item.pemateri ? "flex-end" : "flex-start",
+                backgroundColor: item.pemateri ? "#2285e3" : "#08c21c"
+              }}
+            >
               {item.peserta
                 ? item.peserta.nama
                 : item.pemateri.nama + " (pemateri) "}
               <p>{item.pesan}</p>
-            </li>
-          </Item>
-        ))}
+            </Item>
+          ))}
+        </MessageContainer>
       </Body>
     );
   }
@@ -66,6 +76,25 @@ const Body = styled.div`
   display: flex;
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  height: 200px;
+  width: 500px;
+  overflow-x: scroll;
+`;
+
 const Item = styled.ul`
-  /* padding: 2em 2em; */
+  background-color: #2285e3;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
 `;
