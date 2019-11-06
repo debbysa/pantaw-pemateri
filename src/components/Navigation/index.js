@@ -3,6 +3,14 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export default class Navigation extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      modalIsOpen: false
+    };
+  }
+
   render() {
     return (
       <Nav>
