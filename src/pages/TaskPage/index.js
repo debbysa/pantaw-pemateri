@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 
 import socketIOClient from "socket.io-client";
 import axios from "axios";
+import HelpModal from "../../components/HelpModal";
 
 export default class TaskPage extends Component {
   state = {
@@ -12,7 +13,9 @@ export default class TaskPage extends Component {
       start: false,
       judul: "",
       durasi: 0
-    }
+    },
+
+    modalIsOpen: false
   };
 
   socket = socketIOClient("http://localhost:3000");
@@ -42,6 +45,14 @@ export default class TaskPage extends Component {
     this.setState({ task });
   }
 
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
   render() {
     return (
       <div style={{ display: this.props.match ? "block" : "none" }}>
@@ -70,6 +81,22 @@ export default class TaskPage extends Component {
             <Button onClick={() => this.toggleTask()} text="Mulai" />
           </div>
         )}
+
+        {/* modal */}
+        <button
+          style={{ padding: "10px", border: "none" }}
+          onClick={this.openModal}
+        >
+          help
+        </button>
+        <HelpModal
+          modalIsOpen={this.state.modalIsOpen}
+          closeModal={this.closeModal}
+        >
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTMGcAuU-mx-I_kJmJ2kUNsMU1Ko6ZOkibUrRUlWAEON6YpYVY2" />
+        </HelpModal>
+
+        {/* modal up here */}
       </div>
     );
   }
