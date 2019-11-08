@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import socketIOClient from "socket.io-client";
 import axios from "axios";
 import HelpModal from "../../components/HelpModal";
+import imgLogin from "../../assets/task.jpeg";
 
 export default class TaskPage extends Component {
   state = {
@@ -23,13 +24,17 @@ export default class TaskPage extends Component {
   changeJudul(judul) {
     const { task } = this.state;
     task.judul = judul;
-    this.setState({ task });
+    this.setState({
+      task
+    });
   }
 
   changeDurasi(durasi) {
     const { task } = this.state;
     task.durasi = durasi;
-    this.setState({ task });
+    this.setState({
+      task
+    });
   }
 
   toggleTask() {
@@ -42,26 +47,39 @@ export default class TaskPage extends Component {
     }
 
     this.socket.emit("task", task);
-    this.setState({ task });
+    this.setState({
+      task
+    });
   }
 
   openModal = () => {
-    this.setState({ modalIsOpen: true });
+    this.setState({
+      modalIsOpen: true
+    });
   };
 
   closeModal = () => {
-    this.setState({ modalIsOpen: false });
+    this.setState({
+      modalIsOpen: false
+    });
   };
 
   render() {
     return (
-      <div style={{ display: this.props.match ? "block" : "none" }}>
+      <div
+        style={{
+          display: this.props.match ? "block" : "none"
+        }}
+      >
         {this.state.task.start ? (
           <Task
             task={this.state.task}
             onStop={() => this.toggleTask()}
             onTick={timer =>
-              this.socket.emit("task", { ...this.state.task, timer })
+              this.socket.emit("task", {
+                ...this.state.task,
+                timer
+              })
             }
           />
         ) : (
@@ -81,22 +99,23 @@ export default class TaskPage extends Component {
             <Button onClick={() => this.toggleTask()} text="Mulai" />
           </div>
         )}
-
-        {/* modal */}
+        {/* modal */}{" "}
         <button
-          style={{ padding: "10px", border: "none" }}
+          style={{
+            padding: "10px",
+            border: "none"
+          }}
           onClick={this.openModal}
         >
-          help
-        </button>
+          help{" "}
+        </button>{" "}
         <HelpModal
           modalIsOpen={this.state.modalIsOpen}
           closeModal={this.closeModal}
         >
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTMGcAuU-mx-I_kJmJ2kUNsMU1Ko6ZOkibUrRUlWAEON6YpYVY2" />
+          <img src={imgLogin} />{" "}
         </HelpModal>
-
-        {/* modal up here */}
+        {/* modal up here */}{" "}
       </div>
     );
   }

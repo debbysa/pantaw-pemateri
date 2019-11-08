@@ -4,6 +4,8 @@ import axios from "axios";
 import styled from "styled-components";
 import Button from "../../components/Button";
 import TextInput from "../../components/TextInput";
+import HelpModal from "../../components/HelpModal";
+import imgLogin from "../../assets/chat.jpeg";
 
 export default class PercakapanPage extends Component {
   state = {
@@ -39,9 +41,23 @@ export default class PercakapanPage extends Component {
       });
   }
 
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  };
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+  };
+
   render() {
     return (
       <Body>
+        <button
+          style={{ width: "100px", padding: "10px", border: "none" }}
+          onClick={this.openModal}
+        >
+          help
+        </button>
         <InputContainer>
           <TextInput
             label="Pesan"
@@ -66,6 +82,14 @@ export default class PercakapanPage extends Component {
             </Item>
           ))}
         </MessageContainer>
+        {/* modal */}
+
+        <HelpModal
+          modalIsOpen={this.state.modalIsOpen}
+          closeModal={this.closeModal}
+        >
+          <img src={imgLogin} />
+        </HelpModal>
       </Body>
     );
   }
